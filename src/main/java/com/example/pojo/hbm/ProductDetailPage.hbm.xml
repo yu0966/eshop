@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!-- 商品詳細頁面的類映射 -->
+    <class name="com.example.pojo.entity.ProductDetailPage" table="product_details">
+        
+        <!-- 商品的唯一識別碼 -->
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+
+        <!-- 商品名稱 -->
+        <property name="name" column="name" not-null="true" />
+        
+        <!-- 商品描述 -->
+        <property name="description" column="description" />
+        
+        <!-- 商品價格 -->
+        <property name="price" column="price" not-null="true" />
+        
+        <!-- 商品分類 -->
+        <many-to-one name="category" column="category_id" class="com.example.pojo.entity.Category" fetch="join"/>
+         
+        <!-- 商品庫存數量 -->
+        <property name="stockQuantity" column="stock_quantity" />
+        
+        <!-- 商品圖片URL -->
+        <property name="imageUrl" column="image_url" />
+        
+        <!-- 創建時間 -->
+        <property name="createdAt" column="created_at" insert="false" update="false"/>
+        
+        <!-- 更新時間 -->
+        <property name="updatedAt" column="updated_at" insert="false" update="false"/>
+        
+    </class>
+</hibernate-mapping>

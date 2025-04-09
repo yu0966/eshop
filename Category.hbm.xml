@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <!-- Category 類別映射 -->
+    <class name="com.example.pojo.entity.Category" table="categories">
+
+        <!-- 類別的主鍵映射 -->
+        <id name="id" type="java.lang.String">
+            <column name="id" length="20" />
+            <!-- 註解：使用自定義的 id 生成策略 -->
+            <generator class="com.example.utils.IdGenerateUtil" />
+        </id>
+        
+
+        <!-- 類別的屬性映射 -->
+        <property name="name" column="name" not-null="true"/>
+        <property name="description" column="description"/>
+
+        <!-- 類別的創建與更新時間 -->
+        <property name="createdAt" column="created_at" insert="false" update="false"/>
+        <property name="updatedAt" column="updated_at" insert="false" update="false"/>
+
+        <!-- 商品與分類的關聯 
+        <one-to-many name="products" class="com.example.pojo.entity.Product" cascade="all-delete-orphan" mapped-by="category"/>
+		-->
+    </class>
+
+</hibernate-mapping>
