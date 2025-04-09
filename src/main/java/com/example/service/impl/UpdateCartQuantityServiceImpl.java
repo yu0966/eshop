@@ -1,5 +1,7 @@
 package com.example.service.impl;
 
+import java.math.BigDecimal;
+
 import com.example.dao.CartDao;
 import com.example.dao.CartItemDao;
 import com.example.pojo.entity.Cart;
@@ -24,7 +26,7 @@ public class UpdateCartQuantityServiceImpl implements UpdateCartQuantityService 
         if (cartItem != null) {
             cartItem.setQuantity(quantity);
             cartItem.setTotalPrice(cartItem.getPrice().multiply(new BigDecimal(quantity)));
-            cartItemDao.update(cartItem);
+            cartItemDao.save(cartItem);
         }
 
         // 返回更新後的購物車
