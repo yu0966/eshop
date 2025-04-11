@@ -1,17 +1,14 @@
 package com.example.pojo.entity;
 
-import java.math.BigDecimal;
-
 public class CartItem {
 
-    private String id;                  // 商品條目ID
-    private String cartId;              // 购物车ID
-    private String productId;           // 商品ID
-    private int quantity;               // 商品數量
-    private BigDecimal price;           // 商品單價
-    private BigDecimal totalPrice;      // 商品總價 (單價 * 數量)
+    private String id;              // CartItem ID
+    private String cartId;          // 所屬購物車ID
+    private String productId;       // 商品ID
+    private int quantity;           // 數量
+    private double price;           // 單價
 
-    // Getter 和 Setter 方法
+    // Getter 和 Setter
     public String getId() {
         return id;
     }
@@ -44,19 +41,16 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    // 可選: 小計（非映射資料庫欄位，只是方便邏輯運算）
+    public double getSubtotal() {
+        return this.price * this.quantity;
     }
 }

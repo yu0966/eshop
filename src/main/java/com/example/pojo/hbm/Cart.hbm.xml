@@ -2,22 +2,27 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.example.pojo.entity.Cart" table="cart">
-        <id name="id" type="java.lang.String">
-            <column name="id" length="50" />
-            <generator class="uuid" />
-        </id>
-        
-        <property name="userId" type="java.lang.String">
-            <column name="user_id" length="50" not-null="true" />
-        </property>
+	<class name="com.example.pojo.entity.Cart" table="cart">
+		<id name="id" type="java.lang.String">
+			<column name="id" length="50" />
+			<generator class="uuid" />
+		</id>
 
-        <property name="createDate" type="java.util.Date">
-            <column name="create_date" />
-        </property>
+		<property name="userId" type="java.lang.String">
+			<column name="user_id" length="50" not-null="true" />
+		</property>
 
-        <property name="updateDate" type="java.util.Date">
-            <column name="update_date" />
-        </property>
-    </class>
+		<property name="createDate" type="java.util.Date">
+			<column name="create_date" />
+		</property>
+
+		<property name="updateDate" type="java.util.Date">
+			<column name="update_date" />
+		</property>
+
+		<set name="cartItems" cascade="all" inverse="true">
+			<key column="cart_id" />
+			<one-to-many class="com.example.pojo.entity.CartItem" />
+		</set>
+	</class>
 </hibernate-mapping>
