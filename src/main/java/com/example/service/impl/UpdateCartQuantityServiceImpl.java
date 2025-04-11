@@ -25,7 +25,11 @@ public class UpdateCartQuantityServiceImpl implements UpdateCartQuantityService 
         CartItem cartItem = cartItemDao.getCartItemByCartIdAndProductId(cartId, productId);
         if (cartItem != null) {
             cartItem.setQuantity(quantity);
-            cartItem.setTotalPrice(cartItem.getPrice().multiply(new BigDecimal(quantity)));
+
+            // ✅ 修正: 將 double 轉為 BigDecimal 再運算
+            BigDecimal price = BigDecimal.valueOf(cartItem.getPrice());
+            cartItem.setTotalPrice(price.multiply(BigDecimal.valueOf(quantity)));
+
             cartItemDao.save(cartItem);
         }
 

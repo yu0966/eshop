@@ -1,5 +1,7 @@
 package com.example.pojo.entity;
 
+import java.math.BigDecimal;
+
 public class CartItem {
 
     private String id;              // CartItem ID
@@ -7,6 +9,7 @@ public class CartItem {
     private String productId;       // 商品ID
     private int quantity;           // 數量
     private double price;           // 單價
+    private BigDecimal totalPrice; // 小計（單價 * 數量）
 
     // Getter 和 Setter
     public String getId() {
@@ -49,7 +52,15 @@ public class CartItem {
         this.price = price;
     }
 
-    // 可選: 小計（非映射資料庫欄位，只是方便邏輯運算）
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    // 非映射欄位，邏輯計算用
     public double getSubtotal() {
         return this.price * this.quantity;
     }

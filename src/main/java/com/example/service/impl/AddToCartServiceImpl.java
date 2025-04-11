@@ -35,7 +35,9 @@ public class AddToCartServiceImpl implements AddToCartService {
         CartItem existingCartItem = cartItemDao.getCartItemByCartIdAndProductId(cart.getId(), String.valueOf(product.getId()));
         if (existingCartItem != null) {
             // 更新商品數量
-            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
+            int newQuantity = existingCartItem.getQuantity() + quantity;
+            existingCartItem.setQuantity(newQuantity);
+            existingCartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(newQuantity)));
             cartItemDao.save(existingCartItem);
         } else {
             // 創建新的商品條目
@@ -43,8 +45,8 @@ public class AddToCartServiceImpl implements AddToCartService {
             cartItem.setCartId(cart.getId());
             cartItem.setProductId(String.valueOf(product.getId()));  // 將 int 轉為 String
             cartItem.setQuantity(quantity);
-            cartItem.setPrice(product.getPrice());
-            cartItem.setTotalPrice(product.getPrice().multiply(new BigDecimal(quantity)));
+            cartItem.setPrice(product.getPrice().doubleValue()); // ✅ 修正：轉成 double
+            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
             cartItemDao.save(cartItem);
         }
 

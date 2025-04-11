@@ -26,8 +26,10 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = cartItemDao.getCartItemByCartIdAndProductId(cartId, productId);
         if (cartItem != null) {
             // 更新商品數量
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            cartItem.setTotalPrice(cartItem.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+            int newQuantity = cartItem.getQuantity() + quantity;
+            cartItem.setQuantity(newQuantity);
+            BigDecimal price = BigDecimal.valueOf(cartItem.getPrice());
+            cartItem.setTotalPrice(price.multiply(BigDecimal.valueOf(newQuantity)));
             cartItemDao.save(cartItem);
         } else {
             // 商品不存在，創建新的購物車商品條目
@@ -35,9 +37,12 @@ public class CartServiceImpl implements CartService {
             newCartItem.setCartId(cartId);
             newCartItem.setProductId(productId);
             newCartItem.setQuantity(quantity);
-            // 你可以根據需要設置價格
-            newCartItem.setPrice(BigDecimal.valueOf(100)); // 假設價格為100
-            newCartItem.setTotalPrice(newCartItem.getPrice().multiply(BigDecimal.valueOf(quantity)));
+            
+            double unitPrice = 100.0; // 假設價格為 100 元
+            newCartItem.setPrice(unitPrice);
+            BigDecimal totalPrice = BigDecimal.valueOf(unitPrice).multiply(BigDecimal.valueOf(quantity));
+            newCartItem.setTotalPrice(totalPrice);
+
             cartItemDao.save(newCartItem);
         }
         return cartDao.getCartById(cartId);
@@ -48,7 +53,8 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = cartItemDao.getCartItemByCartIdAndProductId(cartId, productId);
         if (cartItem != null) {
             cartItem.setQuantity(quantity);
-            cartItem.setTotalPrice(cartItem.getPrice().multiply(BigDecimal.valueOf(quantity)));
+            BigDecimal price = BigDecimal.valueOf(cartItem.getPrice());
+            cartItem.setTotalPrice(price.multiply(BigDecimal.valueOf(quantity)));
             cartItemDao.save(cartItem);
         }
         return cartDao.getCartById(cartId);
@@ -68,7 +74,9 @@ public class CartServiceImpl implements CartService {
         List<CartItem> cartItems = cartItemDao.getCartItemsByCartId(cartId);
         double totalPrice = 0.0;
         for (CartItem cartItem : cartItems) {
-            totalPrice += cartItem.getTotalPrice().doubleValue();
+            if (cartItem.getTotalPrice() != null) {
+                totalPrice += cartItem.getTotalPrice().doubleValue();
+            }
         }
         return totalPrice;
     }
