@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <!-- 類映射 -->
-    <class name="com.example.pojo.entity.Product" table="products">
+    <class name="com.example.pojo.entity.Product" table="product">
         
         <!-- 映射商品的唯一識別碼 -->
         <id name="id" type="java.lang.Integer">

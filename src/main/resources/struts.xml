@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC
 	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
-	"http://struts.apache.org/dtds/struts-2.1.dtd">
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<!-- 註解：struts-default.xml 位於 struts2-core.jar 包的根目錄，提供原始的常數、bean、package 及攔截器設定 -->
 	<!-- 註解：定義抽象的 package：<package name="struts-default" abstract="true" strict-method-invocation="true"> -->
@@ -60,5 +60,6 @@
 	<!-- 註解：include 不是將內容插入，而是解析並載入另一個配置檔 -->
     <include file="struts/struts-login.xml"/>
     <include file="struts/struts-register.xml"/>
-    <include file="struts/struts-home.xml"/>
+    <include file="struts/struts-home.xml"/>	
+    <include file="struts/struts-product.xml"/>
 </struts>

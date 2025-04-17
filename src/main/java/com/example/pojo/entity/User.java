@@ -26,6 +26,17 @@ public class User {
     // 使用者註冊日期
     private Date createDate;
 
+    // 無參數構造函數
+    public User() {
+        // 可以在這裡設置默認值（如果需要）
+    }
+
+    // 帶有 loginId 和 password 的構造函數
+    public User(String loginId, String password) {
+        this.loginId = loginId;
+        this.password = password;
+    }
+
     // 取得使用者的 ID
     public String getId() {
         return id;
@@ -85,5 +96,4 @@ public class User {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    
 }

@@ -1,32 +1,34 @@
-// ProductServiceImpl.java
 package com.example.service.impl;
 
+import com.example.dao.ProductDAO;
 import com.example.pojo.entity.Product;
 import com.example.service.ProductService;
-import com.example.pojo.entity.Category;
-import com.example.dao.ProductDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
+@Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
-    private ProductDAO productDAO;
+    private final ProductDAO productDao;
 
-    public ProductServiceImpl(ProductDAO productDAO) {
-        this.productDAO = productDAO;
+    @Autowired
+    public ProductServiceImpl(ProductDAO productDao) {
+        this.productDao = productDao;
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productDAO.getAllProducts();
+    public List<Product> getProducts(int currentPage, int pageSize) {
+        int offset = (currentPage - 1) * pageSize;
+        return productDao.findAll(offset, pageSize);
     }
 
     @Override
-    public Product getProductById(int productId) {
-        return productDAO.getProductById(productId);
-    }
-
-    @Override
-    public List<Product> getProductsByCategory(Category category) {
-        return productDAO.getProductsByCategory(category);
+    public int getTotalPages(int pageSize) {
+        int totalCount = productDao.count();
+        return (int) Math.ceil((double) totalCount / pageSize);
     }
 }

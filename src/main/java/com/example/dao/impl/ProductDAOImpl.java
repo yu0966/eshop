@@ -1,43 +1,36 @@
-// ProductDAOImpl.java
 package com.example.dao.impl;
 
 import com.example.dao.ProductDAO;
 import com.example.pojo.entity.Product;
-import com.example.pojo.entity.Category;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Repository
 public class ProductDAOImpl implements ProductDAO {
-    
+
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public ProductDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    private Session getSession() {
+        return sessionFactory.getCurrentSession(); // 使用 Spring 管理的 Hibernate Session
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Product> query = session.createQuery("from Product", Product.class);
-            return query.getResultList();
-        }
+    public List<Product> findAll(int offset, int limit) {
+        Query<Product> query = getSession().createQuery("FROM Product", Product.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return query.list();
     }
 
     @Override
-    public Product getProductById(int productId) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(Product.class, productId);
-        }
-    }
-
-    @Override
-    public List<Product> getProductsByCategory(Category category) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Product> query = session.createQuery("from Product where category = :category", Product.class);
-            query.setParameter("category", category);
-            return query.getResultList();
-        }
+    public int count() {
+        Query<Long> query = getSession().createQuery("SELECT COUNT(*) FROM Product", Long.class);
+        return query.uniqueResult().intValue();
     }
 }

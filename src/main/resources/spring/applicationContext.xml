@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context 
@@ -49,6 +49,11 @@
 		<!-- 設為 true 時，取得連線時會檢查連線是否有效，無效則重新獲取連線 -->
 		<property name="testConnectionOnCheckin" value="true" />
 	</bean>
+	<bean id="productDao" class="com.example.dao.impl.ProductDAOImpl" />
+	<bean id="productService"
+		class="com.example.service.impl.ProductServiceImpl" />
+	<bean id="productAction" class="com.example.action.ProductAction"
+		scope="prototype" />
 
 	<!-- 配置 Hibernate 的 SessionFactory -->
 	<bean id="sessionFactory"
