@@ -3,30 +3,64 @@ package com.example.action;
 import com.example.pojo.entity.User;
 import com.example.service.UserService;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
-public class RegisterAction extends ActionSupport {
-    private String name;
-    private String loginId;
-    private String password;
-    private String tel;
+public class RegisterAction extends ActionSupport implements ModelDriven<User> {
+
+    private User user = new User();
 
     @Autowired
     private UserService userService;
 
+    @Override
     public String execute() {
-        User user = new User();
-        user.setName(name);
-        user.setLoginId(loginId);
-        user.setPassword(password);
-        user.setTel(tel);
-        user.setCreateDate(new Date());
+        // 檢查帳號是否存在
+        User exist = userService.findByLoginId(user.getLoginId());
+        if (exist != null) {
+            addActionError("帳號已存在，請使用其他使用者名稱");
+            return INPUT;
+        }
 
+        user.setCreateDate(new Date());
         userService.addUser(user);
-        return SUCCESS; // 註冊成功跳回登入頁
+
+        return SUCCESS;
+    }
+    @Override
+    public String input() {
+    	return SUCCESS;
+    } 
+
+    @Override
+    public void validate() {
+        if (user.getLoginId() == null || user.getLoginId().trim().isEmpty()) {
+            addFieldError("user.loginId", "使用者名稱不能為空");
+        }
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            addFieldError("user.password", "密碼不能為空");
+        }
+        if (user.getName() == null || user.getName().trim().isEmpty()) {
+            addFieldError("user.name", "姓名不能為空");
+        }
+        if (user.getTel() == null || user.getTel().trim().isEmpty()) {
+            addFieldError("user.tel", "電話不能為空");
+        }
     }
 
-    // Getter/Setter ...
+    @Override
+    public User getModel() {
+        return user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    private String getActionName() {
+        String uri = org.apache.struts2.ServletActionContext.getRequest().getRequestURI();
+        return uri.substring(uri.lastIndexOf("/") + 1);
+    }    
 }

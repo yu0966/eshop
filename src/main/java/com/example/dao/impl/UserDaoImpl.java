@@ -51,4 +51,12 @@ public class UserDaoImpl implements UserDao {
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
+    @Override
+    public User findByLoginId(String loginId) {
+        String hql = "FROM User u WHERE u.loginId = :loginId";
+        return (User) sessionFactory.getCurrentSession()
+                .createQuery(hql)
+                .setParameter("loginId", loginId)
+                .uniqueResult();
+    }
 }

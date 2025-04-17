@@ -104,7 +104,7 @@
         </div>
     </s:form>
 
-    <a href="/register">註冊新帳號</a>
+    <a href="register/input">註冊新帳號</a>
 </div>
 
 <script>
