@@ -30,14 +30,14 @@
 
     <!-- 錯誤訊息 -->
     <s:if test="hasActionErrors()">
-        <div style="color: red; text-align: center;">
+        <div style="color: red; text-align: left;">
             <s:actionerror />
         </div>
     </s:if>
 
     <!-- 登入表單 -->
     <s:form action="login" method="post" theme="simple" id="loginForm">
-        <label>使用者名稱：</label>
+        <label>帳號：</label>
         <s:textfield name="loginId" required="true" /><br />
         <label>密碼：</label>
         <s:password name="password" required="true" /><br />

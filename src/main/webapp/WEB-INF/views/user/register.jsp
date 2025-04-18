@@ -45,9 +45,9 @@
 
     <s:form action="register" method="post">
         <s:textfield name="user.name" label="姓名" />
+        <s:textfield name="user.tel" label="電話" />
         <s:textfield name="user.loginId" label="帳號" />
         <s:password name="user.password" label="密碼" />
-        <s:textfield name="user.tel" label="電話" />
         <s:submit value="註冊" />
     </s:form>
 

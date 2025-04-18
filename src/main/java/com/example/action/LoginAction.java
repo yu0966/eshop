@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LoginAction extends ActionSupport {
     private String loginId;
     private String password;
-    private String msg;
 
     @Autowired
     private UserService userService;
@@ -26,8 +25,8 @@ public class LoginAction extends ActionSupport {
             session.setAttribute("user", loginUser);
             return SUCCESS; // 導向 list.jsp
         } else {
-            msg = "帳號或密碼錯誤";
-            return INPUT; // 回到 login.jsp
+            addActionError("帳號或密碼錯誤");
+            return LOGIN; // 回到 login.jsp
         }
     }
 
@@ -36,6 +35,5 @@ public class LoginAction extends ActionSupport {
     public void setLoginId(String loginId) { this.loginId = loginId; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
-    public String getMsg() { return msg; }
-    public void setMsg(String msg) { this.msg = msg; }
+ 
 }
