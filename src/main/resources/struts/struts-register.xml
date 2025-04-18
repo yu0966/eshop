@@ -5,8 +5,7 @@
 
 <struts>
     <package name="register" namespace="/register" extends="struts-default">
-    
-        <!-- 自定義攔截器堆疊 -->
+
         <interceptors>
             <interceptor-stack name="registerStack">
                 <interceptor-ref name="modelDrivenStack" />
@@ -23,7 +22,13 @@
 
         <!-- 處理註冊表單送出 -->
         <action name="register" class="com.example.action.RegisterAction" method="execute">
-            <result name="success">/WEB-INF/views/user/login.jsp</result>
+            <!-- ✅ 成功後 redirect 到 login.jsp 並保留訊息 -->
+            <result name="success" type="redirectAction">
+                <param name="actionName">login</param>
+                <param name="namespace">/</param>
+                <param name="preserveMessages">true</param>
+            </result>
+            <result name="input">/WEB-INF/views/user/register.jsp</result>
         </action>
 
     </package>

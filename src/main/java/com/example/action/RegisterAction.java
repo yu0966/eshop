@@ -4,7 +4,6 @@ import com.example.pojo.entity.User;
 import com.example.service.UserService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -28,12 +27,15 @@ public class RegisterAction extends ActionSupport implements ModelDriven<User> {
         user.setCreateDate(new Date());
         userService.addUser(user);
 
+        // ✅ 提示訊息，配合 redirectAction preserveMessages 顯示在 login.jsp
+        addActionMessage("註冊成功，請登入");
         return SUCCESS;
     }
+
     @Override
     public String input() {
-    	return SUCCESS;
-    } 
+        return SUCCESS;
+    }
 
     @Override
     public void validate() {
@@ -59,8 +61,4 @@ public class RegisterAction extends ActionSupport implements ModelDriven<User> {
     public User getUser() {
         return user;
     }
-    private String getActionName() {
-        String uri = org.apache.struts2.ServletActionContext.getRequest().getRequestURI();
-        return uri.substring(uri.lastIndexOf("/") + 1);
-    }    
 }
