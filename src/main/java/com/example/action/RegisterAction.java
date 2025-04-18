@@ -27,9 +27,8 @@ public class RegisterAction extends ActionSupport implements ModelDriven<User> {
         user.setCreateDate(new Date());
         userService.addUser(user);
 
-        // ✅ 提示訊息，配合 redirectAction preserveMessages 顯示在 login.jsp
-        addActionMessage("註冊成功，請登入");
-        return SUCCESS;
+        addActionMessage("成功註冊！");
+        return "registered";
     }
 
     @Override

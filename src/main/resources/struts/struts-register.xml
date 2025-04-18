@@ -22,12 +22,8 @@
 
         <!-- 處理註冊表單送出 -->
         <action name="register" class="com.example.action.RegisterAction" method="execute">
-            <!-- ✅ 成功後 redirect 到 login.jsp 並保留訊息 -->
-            <result name="success" type="redirectAction">
-                <param name="actionName">login</param>
-                <param name="namespace">/</param>
-                <param name="preserveMessages">true</param>
-            </result>
+            <!-- 成功後留在同一頁並顯示訊息 -->
+            <result name="registered">/WEB-INF/views/user/register.jsp</result>
             <result name="input">/WEB-INF/views/user/register.jsp</result>
         </action>
 
