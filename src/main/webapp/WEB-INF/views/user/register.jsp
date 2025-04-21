@@ -43,15 +43,15 @@
     <h2>註冊新帳號</h2>
 
     <div class="errors">
-        <s:actionerror />
-        <s:fielderror />
+        <s:actionerror /><!-- 顯示「整體錯誤」 -->
+        <s:fielderror /><!-- 顯示「欄位錯誤」（像帳號空白） -->
     </div>
 
     <!-- 顯示成功註冊訊息 -->
     <div class="messages">
         <s:actionmessage />
     </div>
-
+<!-- 用 <s:form> 標籤產生表單，送出後會呼叫 register.action，用 POST 傳送資料。 -->
     <s:form action="register" method="post">
         <s:textfield name="user.name" label="姓名" />
         <s:textfield name="user.tel" label="電話" />
