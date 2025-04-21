@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- 這是 XML 檔的標準開頭，沒什麼特別的意思，記得寫就對 -->
+<!-- 告訴 Struts2：這是一個 Struts 2.1 的設定檔（就是版本資訊） -->
 <struts>
+<!-- name="product"	這個 package 名叫 product，讓你辨認而已
+namespace="/product"	當網址是 /product/xxx 開頭時，會套用這裡面的設定
+extends="struts-default"	繼承 Struts2 的預設功能（例如表單驗證、攔截器） -->
     <package name="product" namespace="/product" extends="struts-default">
+    <!-- name="list"	當網址是 /product/list 時，就會觸發這個動作
+class="productAction"	會去執行一個叫做 productAction 的類別（應該是 ProductAction，名稱要對喔！）
+method="list"	這支類別裡的 list() 方法會被執行 -->
         <action name="list" class="productAction" method="list">
+        <!-- 當 list() 方法執行完，回傳的是 SUCCESS 時，就會跳轉到/WEB-INF/views/product/list.jsp -->
             <result name="success">/WEB-INF/views/product/list.jsp</result>
         </action>
     </package>
 </struts>
+
+        <!-- 整體流程超白話說明：
+
+使用者開網頁：http://localhost:8080/product/list →
+    ↓
+Struts2 找到 name="list" 的設定 →
+    ↓
+執行 productAction 這支類別裡的 list() 方法 →
+    ↓
+list() 方法回傳 SUCCESS →
+    ↓
+跳轉到 /WEB-INF/views/product/list.jsp 顯示商品列表頁面 -->

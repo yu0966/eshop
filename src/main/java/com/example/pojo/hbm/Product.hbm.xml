@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 這是 XML 的標準開頭，表示這是一個 XML 檔案，使用 UTF-8 編碼（支援中文） 告訴 Hibernate：「這是一個 Hibernate 
+	的映射檔案」，並引用官方提供的 XML 標準格式。 -->
 <hibernate-mapping>
-    <!-- 類映射 -->
-    <class name="com.example.pojo.entity.Product" table="product">
-        
-        <!-- 映射商品的唯一識別碼 -->
-        <id name="id" type="java.lang.Integer">
-            <column name="id" />
-            <generator class="increment" />
-        </id>
-        
-        
-        <!-- 映射商品名稱 -->
-        <property name="name" column="name" not-null="true" />
-        
-        <!-- 映射商品描述 -->
-        <property name="description" column="description" />
-        
-        <!-- 映射商品價格 -->
-        <property name="price" column="price" not-null="true" />
-        
-        <!-- 映射商品分類--> 
-        <many-to-one name="category" column="category_id" class="com.example.pojo.entity.Category" fetch="join"/>
-         
-        <!-- 映射商品庫存數量 -->
-        <property name="stockQuantity" column="stock_quantity" />
-        
-        <!-- 映射商品圖片URL -->
-        <property name="imageUrl" column="image_url" />
-        
-        <!-- 映射創建時間 -->
-        <property name="createdAt" column="created_at" insert="false" update="false"/>
-        
-        <!-- 映射更新時間 -->
-        <property name="updatedAt" column="updated_at" insert="false" update="false"/>
-        
-    </class>
+	<!-- class 標籤：設定一個類別與資料表的對應關係。 name="..."：代表 Java 裡的 Product 類別（要加上完整路徑） 
+		table="product"：代表這個類別要對應到資料庫的 product 表格 -->
+	<class name="com.example.pojo.entity.Product" table="product">
+
+		<!-- id 是主鍵（Primary Key），這邊是對應 Product 類別裡的 id 屬性。 
+		type="java.lang.Integer"：這個屬性是整數型別 
+			<column name="id" />：資料庫裡的欄位名稱也是 id 
+			<generator class="increment" />：主鍵是自動遞增（1、2、3、...） -->
+		<id name="id" type="java.lang.Integer">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+
+
+		<!-- 對應 Product 裡的 name 欄位 → 資料庫的 name 欄位
+ not-null="true"：表示這欄不能是空值，必填！ -->
+		<property name="name" column="name" not-null="true" />
+
+		<property name="description" column="description" />
+
+		<property name="price" column="price" not-null="true" />
+
+		<many-to-one name="category" column="category_id"
+			class="com.example.pojo.entity.Category" fetch="join" />
+
+		<property name="stockQuantity" column="stock_quantity" />
+
+		<property name="imageUrl" column="image_url" />
+
+		<property name="createdAt" column="created_at" insert="false"
+			update="false" />
+
+		<property name="updatedAt" column="updated_at" insert="false"
+			update="false" />
+
+	</class>
 </hibernate-mapping>

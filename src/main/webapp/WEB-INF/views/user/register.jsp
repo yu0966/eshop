@@ -26,6 +26,10 @@
             color: red;
             margin-bottom: 15px;
         }
+        .messages {
+            color: green;
+            margin-bottom: 15px;
+        }
         a {
             display: block;
             margin-top: 20px;
@@ -41,6 +45,11 @@
     <div class="errors">
         <s:actionerror />
         <s:fielderror />
+    </div>
+
+    <!-- 顯示成功註冊訊息 -->
+    <div class="messages">
+        <s:actionmessage />
     </div>
 
     <s:form action="register" method="post">

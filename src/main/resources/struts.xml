@@ -3,7 +3,8 @@
 	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
     "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
-	<!-- 註解：struts-default.xml 位於 struts2-core.jar 包的根目錄，提供原始的常數、bean、package 及攔截器設定 -->
+	<!-- 註解：struts-default.xml 位於 struts2-core.jar 包的根目錄，提供原始的常數、bean、package 
+		及攔截器設定 -->
 	<!-- 註解：定義抽象的 package：<package name="struts-default" abstract="true" strict-method-invocation="true"> -->
 	<!-- 註解：預設的攔截器設定：<default-interceptor-ref name="defaultStack"/> -->
 	<include file="struts-default.xml" />
@@ -24,14 +25,21 @@
 			<interceptor-stack name="globalStack">
 				<!-- 註解：引用自訂的攔截器 authenticationInterceptor -->
 				<interceptor-ref name="authenticationInterceptor" />
-				<!-- 註解：modelDrivenStack 包含 modelDriven 和 basicStack，modelDriven 用於將參數封裝成 model 物件 -->
+				<!-- 註解：modelDrivenStack 包含 modelDriven 和 basicStack，modelDriven 用於將參數封裝成 
+					model 物件 -->
 				<!-- 註解：basicStack 用來攔截請求中的參數並設定到全域變數，這些攔截器在 struts-default 中已經定義 -->
 				<interceptor-ref name="fileUpload" />
 				<interceptor-ref name="modelDrivenStack" />
 			</interceptor-stack>
-
+			<interceptor name="messageStore"
+				class="org.apache.struts2.interceptor.MessageStoreInterceptor" />
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="messageStore" />
+				<interceptor-ref name="paramsPrepareParamsStack" />
+				<!-- 其他攔截器 -->
+			</interceptor-stack>
 		</interceptors>
-
+		
 		<!-- 註解：設定當前 package 中所有 action 預設使用的攔截器堆疊 -->
 		<!-- 註解：action 最終使用的攔截器堆疊一定要包含 basicStack -->
 		<default-interceptor-ref name="globalStack" />
@@ -50,16 +58,17 @@
 			</result>
 		</global-results>
 
-        <!-- 註解：全域例外處理配置 -->
+		<!-- 註解：全域例外處理配置 -->
 		<global-exception-mappings>
 			<exception-mapping exception="java.lang.Exception"
 				result="error" />
 		</global-exception-mappings>
 	</package>
-	
+
 	<!-- 註解：include 不是將內容插入，而是解析並載入另一個配置檔 -->
-    <include file="struts/struts-login.xml"/>
-    <include file="struts/struts-register.xml"/>
-    <include file="struts/struts-home.xml"/>	
-    <include file="struts/struts-product.xml"/>
+	<include file="struts/struts-login.xml" />
+	<include file="struts/struts-register.xml" />
+	<include file="struts/struts-home.xml" />
+	<include file="struts/struts-product.xml" />
+	<include file="struts/struts-logout.xml"/>
 </struts>

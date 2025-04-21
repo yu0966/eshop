@@ -2,12 +2,23 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
     "http://struts.apache.org/dtds/struts-2.1.dtd">
+<!-- 這是 XML 檔的標準開頭，沒什麼特別的意思，記得寫就對 -->
+<!-- 告訴 Struts2：這是一個 Struts 2.1 的設定檔（就是版本資訊） -->
 
+<!--什麼是 struts.xml？
+struts.xml 是 Struts2 框架最重要的設定檔，它就像是一張「路線圖」，幫你告訴 Struts：
+當使用者按下登入按鈕時，要：呼叫哪支 Java 類別（Action）執行哪個方法根據結果要跳到哪個頁面 -->
 <struts>
-	<!-- 定義一個專門處理登入功能的 package -->
+	<!-- 定義一個處理登入的功能區塊
+name="login"	給這個 package 一個名字，內部你可以定義好幾個 action
+namespace="/"	表示網址開頭的路徑（http://localhost:8080/【這邊】）
+extends="struts-default"	繼承 Struts 預設功能（表單驗證、轉向等等）
+	 -->
 	<package name="login" namespace="/" extends="struts-default">
 
-		<!-- 自定義攔截器堆疊 -->
+		<!-- 自定義攔截器堆疊 （ 攔截器就像「守門員」，在執行 Action 之前幫你處理一些事（例如驗證、資料注
+modelDrivenStack	讓 Struts 能自動把表單資料塞進你自訂的 Java 類別（像 User）
+fileUpload	處理上傳檔案（雖然這個登入功能用不到，先準備好也無妨）-->
 		<interceptors>
 			<interceptor-stack name="loginStack">
 				<!-- 提供 ModelDriven 支援，例如表單直接對應 POJO -->
@@ -17,15 +28,33 @@
 			</interceptor-stack>
 		</interceptors>
 
-		<!-- 設定預設使用的攔截器 -->
+		<!-- 設定預設使用的攔截器 
+這行是說：「我預設使用我剛剛定義的 loginStack 攔截器堆疊」
+所以所有下面的 Action 都會自動套用這組設定，不用每次重複寫。-->
 		<default-interceptor-ref name="loginStack" />
 
-		<!-- 定義登入的 Action -->
+		<!-- 定義且設定登入的 Action
+name="login"	當網址是 /login 時，就會觸發這個動作
+class="com.example.action.LoginAction"	會執行這支 Java 類別的邏輯
+method="execute"	執行 LoginAction 裡的 execute() 方法 -->
 		<action name="login" class="com.example.action.LoginAction"
 			method="execute">
+			<!-- 對應執行結果要跳去哪裡
+success	登入成功 → 去產品清單頁 /WEB-INF/views/product/list.jsp
+login	登入失敗（帳密錯）→ 回到登入頁 /login.jsp -->
 			<result name="success">/WEB-INF/views/product/list.jsp</result>
 			<result name="login">/login.jsp</result>
 		</action>
 
 	</package>
 </struts>
+
+<!-- 總整理
+使用者瀏覽 http://localhost:8080/login →
+    ↓
+Struts2 找到 name="login" 的 action →
+    ↓
+執行 LoginAction 的 execute() 方法 →
+    ↓
+如果登入成功 → 回傳 "success" → 顯示 list.jsp
+如果登入失敗 → 回傳 "login" → 顯示 login.jsp -->

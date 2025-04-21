@@ -2,34 +2,53 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
     "http://struts.apache.org/dtds/struts-2.1.dtd">
-
+<!-- 這是 XML 檔的標準開頭，沒什麼特別的意思，記得寫就對 -->
+<!-- 告訴 Struts2：這是一個 Struts 2.1 的設定檔（就是版本資訊） -->
 <struts>
+<!-- name="register"	給這組設定一個名字，幫你區分其他功能
+namespace="/register"	網址開頭是 /register 的時候會用這一包設定
+extends="struts-default"	使用 Struts 的基本功能（像是表單驗證、model 驅動等） -->
     <package name="register" namespace="/register" extends="struts-default">
-
+<!-- 攔截器名稱	
+modelDrivenStack	讓前端表單自動綁定到 User 物件（也就是 RegisterAction 中的 getModel()）
+fileUpload	處理上傳檔案（雖然這邊註冊好像沒用到，但可以先備著） -->
         <interceptors>
             <interceptor-stack name="registerStack">
                 <interceptor-ref name="modelDrivenStack" />
                 <interceptor-ref name="fileUpload" />
             </interceptor-stack>
         </interceptors>
-
+<!-- 告訴這個 package：「以後如果我沒特別指定，就用這組攔截器」 -->
         <default-interceptor-ref name="registerStack" />
 
-        <!-- 顯示註冊頁面 -->
+        <!-- 顯示註冊頁面
+        如果網址是：/register/input
+就執行 RegisterAction 類別裡的 input() 方法
+如果方法回傳 SUCCESS，就顯示 /WEB-INF/views/user/register.jsp
+通常這是第一次開啟註冊頁的情境（還沒按送出）。 -->
         <action name="input" class="com.example.action.RegisterAction" method="input">
             <result name="success">/WEB-INF/views/user/register.jsp</result>
         </action>
 
-        <!-- 處理註冊表單送出 -->
+        <!-- 當網址是 /register/register，會執行 RegisterAction 的 execute() 方法。 -->
         <action name="register" class="com.example.action.RegisterAction" method="execute">
-            <!-- ✅ 成功後 redirect 到 login.jsp 並保留訊息 -->
-            <result name="success" type="redirectAction">
-                <param name="actionName">login</param>
-                <param name="namespace">/</param>
-                <param name="preserveMessages">true</param>
-            </result>
+            <!-- registered	註冊成功 → 顯示成功訊息	/WEB-INF/views/user/register.jsp
+input	失敗或錯誤 → 可能是帳號已存在或欄位沒填	同一頁重新填寫 -->
+            <result name="registered">/WEB-INF/views/user/register.jsp</result>
             <result name="input">/WEB-INF/views/user/register.jsp</result>
         </action>
 
     </package>
 </struts>
+
+        <!-- 流程總整理：
+
+1️⃣ 使用者輸入網址 /register/input
+    → 顯示註冊表單畫面（register.jsp）
+
+2️⃣ 使用者填好表單按下「送出」
+    → 資料會送到 /register/register
+        → Struts 執行 RegisterAction 的 execute() 方法
+            → 檢查資料有沒有漏、帳號有沒有重複
+                ✅ 如果成功 → 回傳 registered → 顯示成功訊息
+                ❌ 如果失敗 → 回傳 input → 顯示錯誤訊息，留在原頁 -->

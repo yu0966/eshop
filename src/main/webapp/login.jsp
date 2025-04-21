@@ -21,12 +21,7 @@
 <div class="login-container">
     <h2>用戶登入</h2>
 
-    <!-- ✅ 顯示註冊成功訊息 -->
-    <s:if test="hasActionMessages()">
-        <div style="color: green; text-align: center; margin-bottom: 10px;">
-            <s:actionmessage />
-        </div>
-    </s:if>
+    
 
     <!-- 錯誤訊息 -->
     <s:if test="hasActionErrors()">
@@ -34,7 +29,7 @@
             <s:actionerror />
         </div>
     </s:if>
-
+	<s:actionmessage />
     <!-- 登入表單 -->
     <s:form action="login" method="post" theme="simple" id="loginForm">
         <label>帳號：</label>
