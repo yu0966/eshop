@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 //標記這是一個由 Spring 管理的 Controller（其實它是個 Struts 的 Action 類別）
-@Controller
+@Controller("productAction")
 public class ProductAction extends ActionSupport {
 
     private static final int PAGE_SIZE = 10;//每頁要顯示幾筆商品？這裡設定為「一次 10 筆」

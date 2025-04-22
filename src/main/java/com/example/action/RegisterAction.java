@@ -43,7 +43,7 @@ public class RegisterAction extends ActionSupport implements ModelDriven<User> {
 //addActionMessage(...)	加上一句成功訊息
         addActionMessage("成功註冊！");
         //return "registered"	返回到註冊成功的頁面
-        return "registered";
+        return "success";
     }
 //input()：當初次點擊註冊頁面會執行
     @Override

@@ -20,13 +20,10 @@
 <body>
 	<div class="container mt-4">
 		<!-- 登出按鈕 -->
-		<a href="<s:url action='logout'/>" class="btn btn-danger logout-btn">登出</a>
+<a href="<s:url action='logout' namespace='/'/>" class="btn btn-danger logout-btn">登出</a>
 		<!-- 顯示登入使用者名稱 -->
-		<%
-		com.example.pojo.entity.User user = (com.example.pojo.entity.User) session.getAttribute("user");
-		%>
 		<p class="text-end text-muted">
-			歡迎您，<%=user != null ? user.getName() : "訪客"%></p>
+			歡迎您，<s:property value="#session.user.name"/></p>
 
 		<h2 class="mb-4">商品列表</h2>
 
@@ -63,17 +60,18 @@
 			<ul class="pagination justify-content-center">
 				<!-- 上一頁 -->
 				<li class="page-item <s:if test="currentPage <= 1">disabled</s:if>">
-					<s:url var="prevUrl" action="list">
+					<s:url var="prevUrl" action="list" namespace="/product">
 						<s:param name="currentPage" value="%{currentPage - 1}" />
-					</s:url> <a class="page-link" href="<s:property value='#prevUrl'/>">上一頁</a>
+					</s:url> 
+					<a class="page-link" href="<s:property value='#prevUrl'/>">上一頁</a>
 				</li>
 
 				<!-- 下一頁 -->
-				<li
-					class="page-item <s:if test="currentPage >= totalPages">disabled</s:if>">
-					<s:url var="nextUrl" action="list">
+				<li class="page-item <s:if test="currentPage >= totalPages">disabled</s:if>">
+					<s:url var="nextUrl" action="list" namespace="/product">
 						<s:param name="currentPage" value="%{currentPage + 1}" />
-					</s:url> <a class="page-link" href="<s:property value='#nextUrl'/>">下一頁</a>
+					</s:url> 
+					<a class="page-link" href="<s:property value='#nextUrl'/>">下一頁</a>
 				</li>
 			</ul>
 		</nav>

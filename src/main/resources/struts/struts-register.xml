@@ -34,7 +34,7 @@ fileUpload	處理上傳檔案（雖然這邊註冊好像沒用到，但可以先
         <action name="register" class="com.example.action.RegisterAction" method="execute">
             <!-- registered	註冊成功 → 顯示成功訊息	/WEB-INF/views/user/register.jsp
 input	失敗或錯誤 → 可能是帳號已存在或欄位沒填	同一頁重新填寫 -->
-            <result name="registered">/WEB-INF/views/user/register.jsp</result>
+            <result name="success">/WEB-INF/views/user/register.jsp</result>
             <result name="input">/WEB-INF/views/user/register.jsp</result>
         </action>
 

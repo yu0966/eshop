@@ -40,9 +40,12 @@ method="execute"	執行 LoginAction 裡的 execute() 方法 -->
 		<action name="login" class="com.example.action.LoginAction"
 			method="execute">
 			<!-- 對應執行結果要跳去哪裡
-success	登入成功 → 去產品清單頁 /WEB-INF/views/product/list.jsp
-login	登入失敗（帳密錯）→ 回到登入頁 /login.jsp -->
-			<result name="success">/WEB-INF/views/product/list.jsp</result>
+			success	登入成功 → 去產品清單頁 /WEB-INF/views/product/list.jsp
+			login	登入失敗（帳密錯）→ 回到登入頁 /login.jsp -->
+			<result name="success" type="redirectAction">
+        <param name="actionName">product/list</param>
+        <param name="namespace">/product</param>
+    </result>
 			<result name="login">/login.jsp</result>
 		</action>
 

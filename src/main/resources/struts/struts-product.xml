@@ -11,14 +11,12 @@ extends="struts-default"	繼承 Struts2 的預設功能（例如表單驗證、�
 class="productAction"	會去執行一個叫做 productAction 的類別（應該是 ProductAction，名稱要對喔！）
 method="list"	這支類別裡的 list() 方法會被執行 -->
         <action name="list" class="productAction" method="list">
-        <!-- 當 list() 方法執行完，回傳的是 SUCCESS 時，就會跳轉到/WEB-INF/views/product/list.jsp -->
-            <result name="success">/WEB-INF/views/product/list.jsp</result>
-        </action>
+    <result name="success">/WEB-INF/views/product/list.jsp</result>
+</action>
     </package>
 </struts>
 
-        <!-- 整體流程超白話說明：
-
+        <!-- 整體流程說明：
 使用者開網頁：http://localhost:8080/product/list →
     ↓
 Struts2 找到 name="list" 的設定 →
