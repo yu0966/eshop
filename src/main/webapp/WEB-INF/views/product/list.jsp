@@ -49,6 +49,10 @@
 								<s:property value="stockQuantity" />
 							</p>
 							<a href="#" class="btn btn-primary">加入購物車</a>
+							<a href="<s:url action='detail' namespace='/product'>
+								<s:param name='productId' value='id'/>
+								<s:param name='currentPage' value='currentPage'/>
+							</s:url>" class="btn btn-info">產品資訊</a>
 						</div>
 					</div>
 				</div>
