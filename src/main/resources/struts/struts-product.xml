@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-    <package name="product" namespace="/product" extends="struts-default">
-        <action name="list" class="productAction" method="list">
-            <result name="success">/WEB-INF/views/product/list.jsp</result>
-        </action>
-        <action name="detail" class="productAction" method="detail">
-    <result name="success">/WEB-INF/views/product/detail.jsp</result>
-    <result name="error">/WEB-INF/views/product/list.jsp</result>
-</action>
-    </package>
+	<!-- name="product" 給這組設定一個名字，幫你區分其他功能 namespace="/product" 網址開頭是 /product 
+		的時候會用這一包設定 extends="struts-default" 使用 Struts 的基本功能（像是表單驗證、model 驅動等） -->
+	<package name="product" namespace="/product"
+		extends="struts-default">
+		<action name="list" class="productAction" method="list">
+			<result name="success">/WEB-INF/views/product/list.jsp</result>
+		</action>
+		<!-- 當網址是 /product/detail.action 的時候 要去找 productAction 這個類別， 然後執行裡面的 detail() 
+			方法。 -->
+		<action name="detail" class="productAction" method="detail">
+			<result name="success">/WEB-INF/views/product/detail.jsp</result>
+			<result name="error">/WEB-INF/views/product/list.jsp</result>
+		</action>
+	</package>
 </struts>

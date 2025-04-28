@@ -47,7 +47,7 @@
 					value="#session.cartItemCount" /></span>
 		</a>
 
-		<!-- 登出按鈕 -->
+		<!-- 根目錄下執行登出操作 -->
 		<a href="<s:url action='logout' namespace='/'/>"
 			class="btn btn-danger logout-btn">登出</a>
 		<!-- 顯示登入使用者名稱 -->

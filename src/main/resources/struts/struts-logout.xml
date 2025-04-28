@@ -2,9 +2,11 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-
+<!-- name="logout" 給這組設定一個名字，幫你區分其他功能 namespace="/logout" 網址開頭是 /logout 
+		的時候會用這一包設定 extends="struts-default" 使用 Struts 的基本功能（像是表單驗證、model 驅動等） -->
 	<package name="logout" namespace="/" extends="struts-default">
-
+<!-- 當網址是 /logout 時，就會觸發這個動作 class="com.example.action.LogoutAction" 會執行這支 
+			method="execute" 執行 LogoutAction 裡的 execute() 方法 -->
 		<action name="logout" class="com.example.action.LogoutAction"
 			method="execute">
 			<result name="login">/login.jsp</result>

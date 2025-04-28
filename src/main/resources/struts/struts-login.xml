@@ -2,11 +2,7 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
     "http://struts.apache.org/dtds/struts-2.1.dtd">
-<!-- 這是 XML 檔的標準開頭，沒什麼特別的意思，記得寫就對 -->
-<!-- 告訴 Struts2：這是一個 Struts 2.1 的設定檔（就是版本資訊） -->
 
-<!--什麼是 struts.xml？ struts.xml 是 Struts2 框架最重要的設定檔，它就像是一張「路線圖」，幫你告訴 Struts： 
-	當使用者按下登入按鈕時，要：呼叫哪支 Java 類別（Action）執行哪個方法根據結果要跳到哪個頁面 -->
 <struts>
 	<!-- 定義一個處理登入的功能區塊 name="login" 給這個 package 一個名字，內部你可以定義好幾個 action namespace="/" 
 		表示網址開頭的路徑（http://localhost:8080/【這邊】） extends="struts-default" 繼承 Struts 
@@ -24,7 +20,8 @@
 			</interceptor-stack>
 		</interceptors>
 
-		<!-- 設定預設使用的攔截器 這行是說：「我預設使用我剛剛定義的 loginStack 攔截器堆疊」 所以所有下面的 Action 都會自動套用這組設定，不用每次重複寫。 -->
+		<!-- 設定預設使用的攔截器 這行是說：「我預設使用我剛剛定義的 loginStack 攔截器堆疊」 
+		所以所有下面的 Action 都會自動套用這組設定，不用每次重複寫。 -->
 		<default-interceptor-ref name="loginStack" />
 
 		<!-- 當網址是 /login 時，就會觸發這個動作 class="com.example.action.LoginAction" 會執行這支 
