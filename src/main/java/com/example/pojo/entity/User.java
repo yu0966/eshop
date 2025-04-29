@@ -1,6 +1,3 @@
-//這個類別是用來表示「使用者」的資料模型，也就是標準的 Java Bean 或 POJO（Plain Old Java Object）
-
-//宣告這個類別的套件位置（package）。就像檔案夾分類一樣，說明 User 這個類別是在 com.example.pojo.entity 這個資料夾路徑下
 package com.example.pojo.entity;
 
 //匯入 Java 的內建 Date 類別，用來處理時間與日期，等一下會用在使用者註冊日期的欄位上

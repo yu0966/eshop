@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.pojo.entity.Cart;
-import com.example.pojo.entity.CartItem;
 
 public interface CartService {
     Cart getCartByUserId(String userId);

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 @Controller("productAction")
 public class ProductAction extends ActionSupport {
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(ProductAction.class);
 	private static final int PAGE_SIZE = 9;
 	private int currentPage = 1;

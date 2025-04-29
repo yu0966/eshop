@@ -10,7 +10,8 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class LoginAction extends ActionSupport {
-    private String loginId;
+    private static final long serialVersionUID = 1L;
+	private String loginId;
     private String password;
 
     @Autowired

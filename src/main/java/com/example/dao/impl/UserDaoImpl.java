@@ -1,10 +1,6 @@
 package com.example.dao.impl;
 
-import java.util.List;
-
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -48,9 +44,6 @@ public class UserDaoImpl implements UserDao {
         sessionFactory.getCurrentSession().save(user);
     }
 
-    private Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
     @Override
     public User findByLoginId(String loginId) {
         String hql = "FROM User u WHERE u.loginId = :loginId";

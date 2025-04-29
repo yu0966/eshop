@@ -22,6 +22,11 @@ import java.util.Date;
 //ModelDriven<User> 表示會自動把表單資料綁定到一個 User 物件上
 public class RegisterAction extends ActionSupport implements ModelDriven<User> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private User user = new User();// 宣告一個 User 實體，Struts2 會自動幫你把表單資料塞進去（像是 loginId、password…）
 
 //注入 UserService，這樣就可以呼叫它來新增使用者或查詢使用者

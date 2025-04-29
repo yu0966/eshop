@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 
 @Controller("cartAction")
 public class CartAction extends ActionSupport {
     
-    @Autowired
+    private static final long serialVersionUID = 1L;
+
+	@Autowired
     private CartService cartService;
     
     private String productId;
