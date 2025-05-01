@@ -1,4 +1,3 @@
-// 宣告這個類別屬於 com.example.service.impl 套件
 package com.example.service.impl;
 
 import com.example.dao.UserDao;

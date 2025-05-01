@@ -12,11 +12,13 @@
 		<!-- 攔截器名稱 modelDrivenStack 讓前端表單自動綁定到 User 物件（也就是 RegisterAction 中的 getModel()） 
 			fileUpload 處理上傳檔案（雖然這邊註冊好像沒用到，但可以先備著） -->
 		<interceptors>
-			<interceptor-stack name="registerStack">
-				<interceptor-ref name="modelDrivenStack" />
-				<interceptor-ref name="fileUpload" />
-			</interceptor-stack>
-		</interceptors>
+    <interceptor-stack name="registerStack">
+        <interceptor-ref name="modelDriven"/>
+        <interceptor-ref name="basicStack"/>
+        <interceptor-ref name="validation"/>
+        <interceptor-ref name="fileUpload" />
+    </interceptor-stack>
+</interceptors>
 		<!-- 告訴這個 package：「以後如果我沒特別指定，就用這組攔截器」 -->
 		<default-interceptor-ref name="registerStack" />
 
@@ -29,13 +31,10 @@
 		</action>
 
 		<!-- 當網址是 /register/register，會執行 RegisterAction 的 execute() 方法。 -->
-		<action name="register"
-			class="com.example.action.RegisterAction" method="execute">
-			<!-- registered 註冊成功 → 顯示成功訊息 /WEB-INF/views/user/register.jsp input 失敗或錯誤 
-				→ 可能是帳號已存在或欄位沒填 同一頁重新填寫 -->
-			<result name="success">/WEB-INF/views/user/register.jsp</result>
-			<result name="input">/WEB-INF/views/user/register.jsp</result>
-		</action>
+		<action name="register" class="com.example.action.RegisterAction" method="execute">
+    <result name="success">/WEB-INF/views/user/register-success.jsp</result>
+    <result name="input">/WEB-INF/views/user/register.jsp</result>
+</action>
 
 	</package>
 </struts>

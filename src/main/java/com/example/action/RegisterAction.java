@@ -33,52 +33,24 @@ public class RegisterAction extends ActionSupport implements ModelDriven<User> {
 	@Autowired
 	private UserService userService;
 
-	//改寫原本有的 execute() 方法
+	// 改寫原本有的 execute() 方法
 	@Override
 	public String execute() {
-		
-		/*
-		 * 拿使用者剛剛在表單輸入的帳號（loginId），
-		 * 去資料庫裡查一下，有沒有已經有人用這個帳號
-		 * 如果有，就把那個人的資料拿回來存在 exist 這個變數裡
-		 */
 		User exist = userService.findByLoginId(user.getLoginId());
 		if (exist != null) {
-			addActionError("帳號已存在，請使用其他使用者名稱");
+			addFieldError("loginId", "帳號已存在，請使用其他使用者名稱");
 			return INPUT;
 		}
-		//幫user 設定「建立時間」是現在這一刻
 		user.setCreateDate(new Date());
-		//使用者的資料（姓名、電話、帳號、密碼、時間）存進資料庫
 		userService.addUser(user);
 		addActionMessage("成功註冊！");
-		return "success";
+		return SUCCESS;
 	}
 
 //改寫父類別或介面原本的方法
 	@Override
 	public String input() {
 		return SUCCESS;
-	}
-
-	/*
-	 * validate()：欄位驗證，送出前先幫你檢查 這個方法在你按下「註冊」時會自動先跑一次 如果有任何欄位沒填好，就會用 addFieldError()
-	 * 顯示錯誤訊息，且不會跑 execute()！ 這樣就能確保表單送出前一定通過基本檢查。
-	 */
-	@Override
-	public void validate() {
-		if (user.getLoginId() == null || user.getLoginId().trim().isEmpty()) {
-			addFieldError("user.loginId", "使用者名稱不能為空");
-		}
-		if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-			addFieldError("user.password", "密碼不能為空");
-		}
-		if (user.getName() == null || user.getName().trim().isEmpty()) {
-			addFieldError("user.name", "姓名不能為空");
-		}
-		if (user.getTel() == null || user.getTel().trim().isEmpty()) {
-			addFieldError("user.tel", "電話不能為空");
-		}
 	}
 
 	/*

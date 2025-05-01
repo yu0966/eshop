@@ -1,4 +1,3 @@
-//「套件宣告」，意思是這個程式碼檔案屬於 com.example.service 這個套件底下。套件就像是資料夾，用來分類程式檔案，讓專案更有組織。
 package com.example.service;
 
 //這行是「匯入」User 類別，表示等一下會用到 User 這個類別，它定義在 com.example.pojo.entity 套件裡。就像你要用別的資料夾裡的東西，先打開再使用。
