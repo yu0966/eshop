@@ -15,6 +15,7 @@
 	<constant name="struts.multipart.maxSize" value="2097152000" />
 	<!-- 註解：定義 action 請求的副檔名 -->
 	<constant name="struts.action.extension" value="action,do,," />
+	<constant name="struts.objectFactory" value="spring" />
 	<!-- 註解：繼承 struts-default，struts-default package 是抽象定義，表示沒有 action，只是用來繼承的攔截器 -->
 	<package name="default" extends="struts-default">
 		<interceptors>

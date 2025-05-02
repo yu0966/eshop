@@ -31,7 +31,7 @@
 			<!-- 結果是成功，系統會自動幫你跳到 /product/product/list 那個頁面， 
 			讓使用者直接看到商品清單。」 -->
 			<result name="success" type="redirectAction">
-				<param name="actionName">product/list</param>
+				<param name="actionName">list</param>
 				<param name="namespace">/product</param>
 			</result>
 			<result name="login">/login.jsp</result>
