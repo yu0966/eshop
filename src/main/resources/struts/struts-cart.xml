@@ -21,18 +21,18 @@
             </result>
         </action>
         
-        <action name="update" class="cartAction" method="updateCart">
-            <result name="success" type="redirectAction">
-                <param name="actionName">view</param>
-                <param name="namespace">/cart</param>
-            </result>
-        </action>
-        
-        <action name="remove" class="cartAction" method="removeFromCart">
-            <result name="success" type="redirectAction">
-                <param name="actionName">view</param>
-                <param name="namespace">/cart</param>
-            </result>
-        </action>
+       <action name="update" class="com.example.action.CartAction" method="updateCart">
+    <result name="success" type="redirectAction">
+        <param name="actionName">view</param>
+        <param name="namespace">/cart</param>
+    </result>
+</action>
+
+<action name="remove" class="com.example.action.CartAction" method="removeFromCart">
+    <result name="success" type="redirectAction">
+        <param name="actionName">view</param>
+        <param name="namespace">/cart</param>
+    </result>
+</action>
     </package>
 </struts>

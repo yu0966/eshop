@@ -47,11 +47,18 @@ public class CartAction extends ActionSupport {
     public String addToCart() {
         try {
             HttpServletRequest request = ServletActionContext.getRequest();
-            String userId = (String) request.getSession().getAttribute("userId");
-            if (userId == null) {
+            // 修改這裡，確保能正確獲取 userId
+            Object userIdObj = request.getSession().getAttribute("userId");
+            if (userIdObj == null) {
                 String jsonResponse = "{\"status\":\"error\", \"message\":\"請先登入\"}";
                 inputStream = new ByteArrayInputStream(jsonResponse.getBytes(StandardCharsets.UTF_8));
                 return ERROR;
+            }
+            String userId = userIdObj.toString(); // 轉換為字串
+            
+            // 確保 quantity 有預設值
+            if (quantity == 0) {
+                quantity = 1; // 預設數量為1
             }
             
             double price = Double.parseDouble(request.getParameter("price"));
@@ -65,11 +72,8 @@ public class CartAction extends ActionSupport {
             inputStream = new ByteArrayInputStream(jsonResponse.getBytes(StandardCharsets.UTF_8));
             return SUCCESS;
             
-        } catch (NumberFormatException e) {
-            String jsonResponse = "{\"status\":\"error\", \"message\":\"價格格式錯誤\"}";
-            inputStream = new ByteArrayInputStream(jsonResponse.getBytes(StandardCharsets.UTF_8));
-            return ERROR;
         } catch (Exception e) {
+            e.printStackTrace(); // 添加日誌
             String jsonResponse = "{\"status\":\"error\", \"message\":\"加入購物車失敗: " + e.getMessage() + "\"}";
             inputStream = new ByteArrayInputStream(jsonResponse.getBytes(StandardCharsets.UTF_8));
             return ERROR;

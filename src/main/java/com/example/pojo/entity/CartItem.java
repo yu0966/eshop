@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 public class CartItem {
 
-    private String id;              // CartItem ID
-    private String cartId;          // 所屬購物車ID
-    private String productId;       // 商品ID
-    private int quantity;           // 數量
-    private double price;           // 單價
-    private BigDecimal totalPrice; // 小計（單價 * 數量）
+    private String id;
+    private Cart cart;          // 改為直接引用Cart對象
+    private String productId;
+    private int quantity;
+    private double price;
+    private BigDecimal totalPrice;
 
-    // Getter 和 Setter
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -20,12 +20,12 @@ public class CartItem {
         this.id = id;
     }
 
-    public String getCartId() {
-        return cartId;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCartId(String cartId) {
-        this.cartId = cartId;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public String getProductId() {
@@ -60,8 +60,21 @@ public class CartItem {
         this.totalPrice = totalPrice;
     }
 
-    // 非映射欄位，邏輯計算用
-    public double getSubtotal() {
-        return this.price * this.quantity;
+    // 輔助方法
+    public void calculateTotalPrice() {
+        if (this.price > 0 && this.quantity > 0) {
+            this.totalPrice = BigDecimal.valueOf(this.price).multiply(BigDecimal.valueOf(this.quantity));
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id='" + id + '\'' +
+                ", productId='" + productId + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

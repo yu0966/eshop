@@ -1,17 +1,17 @@
 package com.example.pojo.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Cart {
+    private String id;
+    private String userId;
+    private Date createDate;
+    private Date updateDate;
+    private Set<CartItem> cartItems = new HashSet<>(); // 初始化集合
 
-    private String id;                  // 购物车ID
-    private String userId;              // 用戶ID
-    private Date createDate;            // 創建時間
-    private Date updateDate;            // 更新時間
-    private List<CartItem> cartItems;   // 购物车中的商品條目
-
-    // Getter 和 Setter 方法
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -44,11 +44,33 @@ public class Cart {
         this.updateDate = updateDate;
     }
 
-    public List<CartItem> getCartItems() {
+    public Set<CartItem> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
+    public void setCartItems(Set<CartItem> cartItems) {
         this.cartItems = cartItems;
+    }
+
+    // 輔助方法
+    public void addCartItem(CartItem item) {
+        item.setCart(this);
+        this.cartItems.add(item);
+    }
+
+    public void removeCartItem(CartItem item) {
+        this.cartItems.remove(item);
+        item.setCart(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", cartItems=" + cartItems +
+                '}';
     }
 }

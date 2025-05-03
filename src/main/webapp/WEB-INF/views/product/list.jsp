@@ -213,7 +213,7 @@ $(document).ready(function() {
             type: 'POST',
             data: {
                 productId: productId,
-                quantity: 1,
+                quantity: 1, // 明確設置數量
                 price: price
             },
             dataType: 'json',
@@ -221,14 +221,20 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     var successModal = new bootstrap.Modal(document.getElementById('successModal'));
                     successModal.show();
-                    $('.cart-count').text(response.cartItemCount);
+                    // 更新購物車數量
+                    $('.cart-count').text(response.cartItemCount || 0);
                 } else {
-                    alert('錯誤: ' + response.message);
+                    alert('錯誤: ' + (response.message || '未知錯誤'));
                 }
             },
             error: function(xhr, status, error) {
                 console.error("AJAX錯誤:", xhr.responseText);
-                alert('加入購物車失敗: ' + (xhr.responseJSON?.message || error));
+                var errorMsg = '加入購物車失敗';
+                try {
+                    var jsonResponse = JSON.parse(xhr.responseText);
+                    errorMsg = jsonResponse.message || errorMsg;
+                } catch (e) {}
+                alert(errorMsg);
             },
             complete: function() {
                 $btn.prop('disabled', false).text('加入購物車');
