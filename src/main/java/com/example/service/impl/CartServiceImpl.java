@@ -35,34 +35,36 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addToCart(String userId, String productId, int quantity, double price) {
         if (userId == null || productId == null || quantity <= 0) {
-            throw new IllegalArgumentException("Invalid parameters");
+            throw new IllegalArgumentException("參數錯誤");
         }
 
         Cart cart = cartDao.findByUserId(userId);
+        
         if (cart == null) {
             cart = new Cart();
             cart.setId(UUID.randomUUID().toString());
             cart.setUserId(userId);
             cart.setCreateDate(new Date());
-            cart.setCartItems(new HashSet<>()); // 使用HashSet初始化
-            cartDao.save(cart);
+            cart.setCartItems(new HashSet<>());
+            cartDao.save(cart); // 先保存購物車
         }
 
         // 檢查是否已存在相同商品
-        boolean itemExists = false;
+        CartItem existingItem = null;
         for (CartItem item : cart.getCartItems()) {
             if (productId.equals(item.getProductId())) {
-                item.setQuantity(item.getQuantity() + quantity);
-                item.calculateTotalPrice();
-                itemExists = true;
+                existingItem = item;
                 break;
             }
         }
 
-        if (!itemExists) {
+        if (existingItem != null) {
+            existingItem.setQuantity(existingItem.getQuantity() + quantity);
+            existingItem.calculateTotalPrice();
+        } else {
             CartItem newItem = new CartItem();
             newItem.setId(UUID.randomUUID().toString());
-            newItem.setCart(cart); // 設置關聯的Cart對象
+            newItem.setCart(cart);
             newItem.setProductId(productId);
             newItem.setQuantity(quantity);
             newItem.setPrice(price);
@@ -71,7 +73,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cart.setUpdateDate(new Date());
-        cartDao.update(cart);
+        cartDao.update(cart); // 更新購物車
     }
 
     @Override

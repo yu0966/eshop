@@ -33,31 +33,36 @@
     </bean>
 
     <!-- 配置 Hibernate 的 SessionFactory -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.example.pojo.entity" />
-        <property name="mappingLocations">
-            <value>classpath:com/example/pojo/hbm/*.hbm.xml</value>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.jdbc.fetch_size">50</prop>
-                <prop key="hibernate.jdbc.batch_size">50</prop>
-                <prop key="hibernate.connection.autocommit">false</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-            </props>
-        </property>
-    </bean>
+<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="packagesToScan" value="com.example.pojo.entity" />
+    <property name="mappingResources">
+        <list>
+            <value>com/example/pojo/hbm/Category.hbm.xml</value>
+            <value>com/example/pojo/hbm/Product.hbm.xml</value>
+            <value>com/example/pojo/hbm/Cart.hbm.xml</value>
+            <value>com/example/pojo/hbm/CartItem.hbm.xml</value>
+            <value>com/example/pojo/hbm/User.hbm.xml</value>
+            <value>com/example/pojo/hbm/ProductDetailPage.hbm.xml</value>
+        </list>
+    </property>
+    <property name="hibernateProperties">
+        <props>
+            <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+            <prop key="hibernate.show_sql">true</prop>
+            <prop key="hibernate.format_sql">true</prop>
+            <prop key="hibernate.hbm2ddl.auto">update</prop>
+            <prop key="hibernate.archive.autodetection">class,hbm</prop>
+        </props>
+    </property>
+</bean>
 
     <!-- 配置交易管理器 -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <!-- 啟用註解驅動的交易管理 (選擇此方式，移除下方手動交易配置) -->
+    <!-- 啟用註解驅動的交易管理 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- 其他 Bean 配置 -->

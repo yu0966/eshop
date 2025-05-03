@@ -9,7 +9,7 @@
         </id>
 
         <property name="userId" type="java.lang.String">
-            <column name="user_id" length="50" not-null="true" index="idx_cart_user_id"/>
+            <column name="user_id" length="50" not-null="true" unique="true" />
         </property>
 
         <property name="createDate" type="java.util.Date">
@@ -20,7 +20,7 @@
             <column name="update_date" />
         </property>
 
-        <set name="cartItems" cascade="save-update, delete" inverse="true" lazy="false" fetch="join">
+        <set name="cartItems" cascade="all-delete-orphan" inverse="true" fetch="join">
             <key column="cart_id" not-null="true" />
             <one-to-many class="com.example.pojo.entity.CartItem" />
         </set>
