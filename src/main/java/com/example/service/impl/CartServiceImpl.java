@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -34,46 +35,49 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addToCart(String userId, String productId, int quantity, double price) {
-        if (userId == null || productId == null || quantity <= 0) {
-            throw new IllegalArgumentException("參數錯誤");
-        }
-
-        Cart cart = cartDao.findByUserId(userId);
-        
-        if (cart == null) {
-            cart = new Cart();
-            cart.setId(UUID.randomUUID().toString());
-            cart.setUserId(userId);
-            cart.setCreateDate(new Date());
-            cart.setCartItems(new HashSet<>());
-            cartDao.save(cart); // 先保存購物車
-        }
-
-        // 檢查是否已存在相同商品
-        CartItem existingItem = null;
-        for (CartItem item : cart.getCartItems()) {
-            if (productId.equals(item.getProductId())) {
-                existingItem = item;
-                break;
+        try {
+            Cart cart = cartDao.findByUserId(userId);
+            
+            if (cart == null) {
+                cart = new Cart();
+                cart.setId(UUID.randomUUID().toString());
+                cart.setUserId(userId);
+                cart.setCreateDate(new Date());
+                cart.setCartItems(new HashSet<>());
+                cartDao.save(cart); // 保存新购物车
+                
+                // 重新获取以确保在同一个会话中
+                cart = cartDao.findByUserId(userId);
             }
-        }
 
-        if (existingItem != null) {
-            existingItem.setQuantity(existingItem.getQuantity() + quantity);
-            existingItem.calculateTotalPrice();
-        } else {
-            CartItem newItem = new CartItem();
-            newItem.setId(UUID.randomUUID().toString());
-            newItem.setCart(cart);
-            newItem.setProductId(productId);
-            newItem.setQuantity(quantity);
-            newItem.setPrice(price);
-            newItem.calculateTotalPrice();
-            cart.getCartItems().add(newItem);
-        }
+            // 检查是否已存在相同商品
+            Optional<CartItem> existingItem = cart.getCartItems().stream()
+                .filter(item -> productId.equals(item.getProductId()))
+                .findFirst();
 
-        cart.setUpdateDate(new Date());
-        cartDao.update(cart); // 更新購物車
+            if (existingItem.isPresent()) {
+                // 更新现有项
+                CartItem item = existingItem.get();
+                item.setQuantity(item.getQuantity() + quantity);
+                item.setTotalPrice(BigDecimal.valueOf(item.getPrice() * item.getQuantity()));
+            } else {
+                // 添加新项
+                CartItem newItem = new CartItem();
+                newItem.setId(UUID.randomUUID().toString());
+                newItem.setCart(cart); // 设置关联
+                newItem.setProductId(productId);
+                newItem.setQuantity(quantity);
+                newItem.setPrice(price);
+                newItem.setTotalPrice(BigDecimal.valueOf(price * quantity));
+                cart.getCartItems().add(newItem);
+            }
+
+            cart.setUpdateDate(new Date());
+            cartDao.update(cart);
+            
+        } catch (Exception e) {
+            throw new RuntimeException("加入购物车失败: " + e.getMessage(), e);
+        }
     }
 
     @Override

@@ -25,23 +25,13 @@ public class CartDAOImpl implements CartDAO {
     public Cart findByUserId(String userId) {
         Session session = sessionFactory.getCurrentSession();
         try {
-            // 使用 JOIN FETCH 避免 N+1 查詢問題
-            Query<Cart> query = session.createQuery(
-                "SELECT DISTINCT c FROM Cart c LEFT JOIN FETCH c.cartItems WHERE c.userId = :userId", 
-                Cart.class);
-            query.setParameter("userId", userId);
-            
-            Cart cart = query.getSingleResult();
-            
-            // 確保 Hibernate 會話中的集合初始化
-            if (cart != null && cart.getCartItems() != null) {
-                cart.getCartItems().size(); // 觸發初始化
-            }
-            return cart;
+            return session.createQuery(
+                "SELECT c FROM Cart c LEFT JOIN FETCH c.cartItems WHERE c.userId = :userId", 
+                Cart.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
         } catch (NoResultException e) {
-            return null; // 沒有找到結果是正常情況，返回null
-        } catch (Exception e) {
-            throw new RuntimeException("查詢用戶購物車失敗，用戶ID: " + userId, e);
+            return null;
         }
     }
 
@@ -49,12 +39,19 @@ public class CartDAOImpl implements CartDAO {
     public void save(Cart cart) {
         Session session = sessionFactory.getCurrentSession();
         try {
-            // 使用 persist 而非 save 確保對象狀態正確
-            session.persist(cart);
-            // 立即刷新以捕捉可能的錯誤
+            // 重要修改：使用merge而不是persist
+            Cart mergedCart = (Cart) session.merge(cart);
+            
+            // 处理关联的购物车项
+            if(mergedCart.getCartItems() != null) {
+                mergedCart.getCartItems().forEach(item -> {
+                    item.setCart(mergedCart); // 确保双向关联
+                    session.merge(item); // 使用merge处理可能已存在的项
+                });
+            }
             session.flush();
         } catch (Exception e) {
-            throw new RuntimeException("保存購物車失敗，購物車ID: " + cart.getId(), e);
+            throw new RuntimeException("保存购物车失败，用户ID: " + cart.getUserId(), e);
         }
     }
 
@@ -62,15 +59,15 @@ public class CartDAOImpl implements CartDAO {
     public void update(Cart cart) {
         Session session = sessionFactory.getCurrentSession();
         try {
-            // 使用 merge 處理分離對象
             Cart mergedCart = (Cart) session.merge(cart);
-            // 確保關聯對象也被更新
-            if (mergedCart.getCartItems() != null) {
-                mergedCart.getCartItems().forEach(session::merge);
-            }
+            // 处理购物车项
+            mergedCart.getCartItems().forEach(item -> {
+                item.setCart(mergedCart);
+                session.merge(item);
+            });
             session.flush();
         } catch (Exception e) {
-            throw new RuntimeException("更新購物車失敗，購物車ID: " + cart.getId(), e);
+            throw new RuntimeException("更新购物车失败，购物车ID: " + cart.getId(), e);
         }
     }
 }
