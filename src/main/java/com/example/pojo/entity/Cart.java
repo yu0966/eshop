@@ -9,7 +9,7 @@ public class Cart {
     private String userId;
     private Date createDate;
     private Date updateDate;
-    private Set<CartItem> cartItems = new HashSet<>(); // 初始化集合
+    private Set<CartItem> cartItems = new HashSet<>();
 
     // Getters and Setters
     public String getId() {

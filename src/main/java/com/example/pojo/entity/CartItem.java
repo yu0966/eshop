@@ -3,9 +3,8 @@ package com.example.pojo.entity;
 import java.math.BigDecimal;
 
 public class CartItem {
-
     private String id;
-    private Cart cart;          // 改為直接引用Cart對象
+    private Cart cart;          // 使用對象關聯替代cartId
     private String productId;
     private int quantity;
     private double price;
